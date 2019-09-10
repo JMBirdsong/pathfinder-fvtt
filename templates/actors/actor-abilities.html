@@ -1,8 +1,9 @@
 <ol class="abilities-list">
 {{#each data.abilities as |ability id|}}
     <li class="ability" data-ability="{{id}}">
-        <input type="hidden" name="data.abilities.{{id}}.proficient" value="{{ability.proficient}}"
-               data-dtype="Number"/>
+        <!--<input type="hidden" name="data.abilities.{{id}}.proficient" value="{{ability.proficient}}"
+               data-dtype="Number"/>-->
+        
         <a class="ability-proficiency" title="{{ability.hover}}">{{{ability.icon}}}</a>
         <h4 class="ability-name rollable">{{ability.label}}</h4>
         <span class="ability-mod" title="Modifier">{{numberFormat ability.mod decimals=0 sign=true}}</span>

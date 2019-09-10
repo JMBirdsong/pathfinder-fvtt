@@ -6,7 +6,7 @@ class TraitSelector5e extends FormApplication {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  options.id = "trait-selector";
-	  options.classes = ["dnd5e"];
+	  options.classes = ["pathfinder"];
 	  options.title = "Actor Trait Selection";
 	  options.template = "public/systems/dnd5e/templates/actors/trait-selector.html";
 	  options.width = 200;

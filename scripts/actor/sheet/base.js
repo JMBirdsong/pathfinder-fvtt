@@ -2,7 +2,7 @@
  * Extend the basic ActorSheet class to do all the D&D5e things!
  * This sheet is an Abstract layer which is not used.
  */
-class ActorSheet5e extends ActorSheet {
+class ActorSheetPF extends ActorSheet {
 
   /**
    * Return the type of the current Actor

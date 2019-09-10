@@ -1,49 +1,50 @@
 {
-  "name": "dnd5e",
-  "title": "Dungeons & Dragons 5th Edition",
-  "description": "A comprehensive game system for running games of Dungeons & Dragons 5th Edition in the Foundry VTT environment.",
+  "name": "pathfinder-master",
+  "title": "Pathfinder First Edition",
+  "description": "A comprehensive game system for running games of Pathfinder First Edition in the Foundry VTT environment. Built on Atropos' 5e System.",
   "version": 0.61,
-  "author": "Atropos",
-  "scripts": ["dnd5e.js"],
-  "styles": ["dnd5e.css"],
+  "author": "McCoy",
+  "op": "Atropos",
+  "scripts": ["pathfinder.js"],
+  "styles": ["pathfinder.css"],
   "packs": [
     {
       "name": "monsters",
       "label": "Monsters (SRD)",
-      "system": "dnd5e",
-      "module": "dnd5e",
+      "system": "pathfinder-master",
+      "module": "pathfinder",
       "path": "./packs/monsters.db",
       "entity": "Actor"
     },
     {
       "name": "items",
       "label": "Items (SRD)",
-      "system": "dnd5e",
-      "module": "dnd5e",
+      "system": "pathfinder-master",
+      "module": "pathfinder",
       "path": "./packs/items.db",
       "entity": "Item"
     },
     {
       "name": "spells",
       "label": "Spells (SRD)",
-      "system": "dnd5e",
-      "module": "dnd5e",
+      "system": "pathfinder-master",
+      "module": "pathfinder",
       "path": "./packs/spells.db",
       "entity": "Item"
     },
     {
       "name": "classes",
       "label": "Classes (SRD)",
-      "system": "dnd5e",
-      "module": "dnd5e",
+      "system": "pathfinder-master",
+      "module": "pathfinder",
       "path": "./packs/classes.db",
       "entity": "Item"
     },
     {
       "name": "classfeatures",
       "label": "Class Features (SRD)",
-      "system": "dnd5e",
-      "module": "dnd5e",
+      "system": "pathfinder-master",
+      "module": "pathfinder",
       "path": "./packs/classfeatures.db",
       "entity": "Item"
     }

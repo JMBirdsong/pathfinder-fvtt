@@ -1,4 +1,4 @@
-class Dice5e {
+class DicePF {
 
   /**
    * A standardized helper function for managing core 5e "d20 rolls"

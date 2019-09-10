@@ -1,10 +1,10 @@
 
 
-class ActorSheet5eCharacter extends ActorSheet5e {
+class ActorSheetPFCharacter extends ActorSheetPF {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  mergeObject(options, {
-      classes: options.classes.concat(["dnd5e", "actor", "character-sheet"]),
+      classes: options.classes.concat(["pathfinder", "actor", "character-sheet"]),
       width: 650,
       height: 720,
       showUnpreparedSpells: true
@@ -19,7 +19,7 @@ class ActorSheet5eCharacter extends ActorSheet5e {
    * @type {String}
    */
   get template() {
-    const path = "public/systems/dnd5e/templates/actors/";
+    const path = "public/systems/pathfinder-master/templates/actors/";
     if ( !game.user.isGM && this.actor.limited ) return path + "limited-sheet.html";
     return path + "actor-sheet.html";
   }
@@ -184,7 +184,7 @@ class ActorSheet5eCharacter extends ActorSheet5e {
     event.preventDefault();
     let hd0 = this.actor.data.data.attributes.hd.value,
         hp0 = this.actor.data.data.attributes.hp.value;
-    renderTemplate("public/systems/dnd5e/templates/chat/short-rest.html").then(html => {
+    renderTemplate("public/systems/pathfinder-master/templates/chat/short-rest.html").then(html => {
       new ShortRestDialog(this.actor, {
         title: "Short Rest",
         content: html,
@@ -251,7 +251,7 @@ class ActorSheet5eCharacter extends ActorSheet5e {
 }
 
 // Register Character Sheet
-Actors.registerSheet("dnd5e", ActorSheet5eCharacter, {
+Actors.registerSheet("pathfinder", ActorSheetPFCharacter, {
   types: ["character"],
   makeDefault: true
 });
