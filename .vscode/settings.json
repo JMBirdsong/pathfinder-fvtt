@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "C:\\Users\\Consultant\\Documents\\Project\\FVT PF project\\PFSDB (1).sqlite3",
+            "dialect": "SQLite",
+            "name": "PFSDB"
+        },
+        {
+            "database": "C:\\Users\\Consultant\\Documents\\Project\\FVT PF project\\PFSDB (1).sqlite3",
+            "dialect": "SQLite",
+            "name": "PFSDB2"
+        }
+    ]
+}
