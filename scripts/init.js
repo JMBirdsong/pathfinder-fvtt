@@ -7,7 +7,7 @@ Hooks.once("init", () => {
   /**
    * Register diagonal movement rule setting
    */
-  game.settings.register("dnd5e", "diagonalMovement", {
+  game.settings.register("pathfinder", "diagonalMovement", {
     name: "SETTINGS.5eDiagN",
     hint: "SETTINGS.5eDiagL",
     scope: "world",
@@ -29,7 +29,7 @@ Hooks.once("init", () => {
     CONFIG.initiative.decimals = tiebreaker ? 2 : 0;
     if ( ui.combat && ui.combat._rendered ) ui.combat.render();
   }
-  game.settings.register("dnd5e", "initiativeDexTiebreaker", {
+  game.settings.register("pathfinder", "initiativeDexTiebreaker", {
     name: "SETTINGS.5eInitTBN",
     hint: "SETTINGS.5eInitTBL",
     scope: "world",
@@ -38,12 +38,12 @@ Hooks.once("init", () => {
     type: Boolean,
     onChange: enable => _set5eInitiative(enable)
   });
-  _set5eInitiative(game.settings.get("dnd5e", "initiativeDexTiebreaker"));
+  _set5eInitiative(game.settings.get("pathfinder", "initiativeDexTiebreaker"));
 
   /**
    * Require Currency Carrying Weight
    */
-  game.settings.register("dnd5e", "currencyWeight", {
+  game.settings.register("pathfinder", "currencyWeight", {
     name: "SETTINGS.5eCurWtN",
     hint: "SETTINGS.5eCurWtL",
     scope: "world",
@@ -56,27 +56,27 @@ Hooks.once("init", () => {
   loadTemplates([
 
     // Actor Sheet Partials
-    "public/systems/dnd5e/templates/actors/actor-attributes.html",
-    "public/systems/dnd5e/templates/actors/actor-abilities.html",
-    "public/systems/dnd5e/templates/actors/actor-biography.html",
-    "public/systems/dnd5e/templates/actors/actor-skills.html",
-    "public/systems/dnd5e/templates/actors/actor-traits.html",
-    "public/systems/dnd5e/templates/actors/actor-classes.html",
+    "public/systems/pathfinder-master/templates/actors/actor-attributes.html",
+    "public/systems/pathfinder-master/templates/actors/actor-abilities.html",
+    "public/systems/pathfinder-master/templates/actors/actor-biography.html",
+    "public/systems/pathfinder-master/templates/actors/actor-skills.html",
+    "public/systems/pathfinder-master/templates/actors/actor-traits.html",
+    "public/systems/pathfinder-master/templates/actors/actor-classes.html",
 
     // Item Sheet Partials
-    "public/systems/dnd5e/templates/items/backpack-sidebar.html",
-    "public/systems/dnd5e/templates/items/class-sidebar.html",
-    "public/systems/dnd5e/templates/items/consumable-details.html",
-    "public/systems/dnd5e/templates/items/consumable-sidebar.html",
-    "public/systems/dnd5e/templates/items/equipment-details.html",
-    "public/systems/dnd5e/templates/items/equipment-sidebar.html",
-    "public/systems/dnd5e/templates/items/feat-details.html",
-    "public/systems/dnd5e/templates/items/feat-sidebar.html",
-    "public/systems/dnd5e/templates/items/spell-details.html",
-    "public/systems/dnd5e/templates/items/spell-sidebar.html",
-    "public/systems/dnd5e/templates/items/tool-sidebar.html",
-    "public/systems/dnd5e/templates/items/weapon-details.html",
-    "public/systems/dnd5e/templates/items/weapon-sidebar.html"
+    "public/systems/pathfinder-master/templates/items/backpack-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/class-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/consumable-details.html",
+    "public/systems/pathfinder-master/templates/items/consumable-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/equipment-details.html",
+    "public/systems/pathfinder-master/templates/items/equipment-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/feat-details.html",
+    "public/systems/pathfinder-master/templates/items/feat-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/spell-details.html",
+    "public/systems/pathfinder-master/templates/items/spell-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/tool-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/weapon-details.html",
+    "public/systems/pathfinder-master/templates/items/weapon-sidebar.html"
   ]);
 
   /* -------------------------------------------- */
@@ -95,15 +95,15 @@ Hooks.once("init", () => {
           parts = ["1d20", data.attributes.init.mod];
 
     // Advantage on Initiative
-    if ( actor.getFlag("dnd5e", "initiativeAdv") ) parts[0] = "2d20kh";
+    if ( actor.getFlag("pathfinder", "initiativeAdv") ) parts[0] = "2d20kh";
 
     // Half-Proficiency to Initiative
-    if ( actor.getFlag("dnd5e", "initiativeHalfProf") ) {
+    if ( actor.getFlag("pathfinder", "initiativeHalfProf") ) {
       parts.push(Math.floor(0.5 * data.attributes.prof.value))
     }
 
     // Alert Bonus to Initiative
-    if ( actor.getFlag("dnd5e", "initiativeAlert") ) parts.push(5);
+    if ( actor.getFlag("pathfinder", "initiativeAlert") ) parts.push(5);
 
     // Dexterity tiebreaker
     if ( CONFIG.initiative.tiebreaker ) parts.push(data.abilities.dex.value / 100);
@@ -118,7 +118,7 @@ Hooks.once("init", () => {
 Hooks.on("canvasInit", () => {
 
   // Apply the current setting
-  canvas.grid.diagonalRule = game.settings.get("dnd5e", "diagonalMovement");
+  canvas.grid.diagonalRule = game.settings.get("pathfinder", "diagonalMovement");
 
   /* -------------------------------------------- */
 

@@ -1,7 +1,7 @@
 /**
  * Override and extend the basic :class:`ItemSheet` implementation
  */
-class ItemSheet5e extends ItemSheet {
+class ItemSheetPF extends ItemSheet {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  options.width = 520;
@@ -119,4 +119,4 @@ Hooks.on('renderChatLog', (log, html, data) => Item5e.chatListeners(html));
 
 // Register Item Sheet
 Items.unregisterSheet("core", ItemSheet);
-Items.registerSheet("dnd5e", ItemSheet5e, {makeDefault: true});
+Items.registerSheet("dnd5e", ItemSheetPF, {makeDefault: true});

@@ -118,22 +118,18 @@ CONFIG.featTypes = {
   "lair": "Lair Action"
 };
 
-// Proficiency Multipliers
-CONFIG.proficiencyLevels = {
-  0: "Not Proficient",
-  1: "Proficient",
-  0.5: "Jack of all Trades",
-  2: "Expertise"
-};
 
 // Creature Sizes
 CONFIG.actorSizes = {
+  "fine": "Fine",
+  "dim": "Diminuative",
   "tiny": "Tiny",
   "sm": "Small",
   "med": "Medium",
   "lg": "Large",
   "huge": "Huge",
-  "grg": "Gargantuan"
+  "grg": "Gargantuan",
+  "coll": "Collosal"
 };
 
 // Condition Types
@@ -184,10 +180,10 @@ CONFIG.languages = {
   "cant": "Thieves' Cant",
   "undercommon": "Undercommon"
 };
-class Dice5e {
+class DicePF {
 
   /**
-   * A standardized helper function for managing core 5e "d20 rolls"
+   * A standardized helper function for managing core pathfinder "d20 rolls"
    *
    * Holding SHIFT, ALT, or CTRL when the attack is rolled will "fast-forward".
    * This chooses the default options of a normal attack with no bonus, Advantage, or Disadvantage respectively
@@ -248,7 +244,7 @@ class Dice5e {
     } else parts = parts.concat(["@bonus"]);
 
     // Render modal dialog
-    template = template || "public/systems/dnd5e/templates/chat/roll-dialog.html";
+    template = template || "public/systems/pathfinder-master/templates/chat/roll-dialog.html";
     let dialogData = {
       formula: parts.join(" + "),
       data: data,
@@ -311,7 +307,7 @@ class Dice5e {
       let roll = new Roll(parts.join("+"), data),
           flav = ( flavor instanceof Function ) ? flavor(parts, data) : title;
       if ( crit ) {
-        let add = (actor && actor.getFlag("dnd5e", "savageAttacks")) ? 1 : 0;
+        let add = (actor && actor.getFlag("pathfinder", "savageAttacks")) ? 1 : 0;
         let mult = 2;
         roll.alter(add, mult);
         flav = `${title} (Critical)`;
@@ -338,7 +334,7 @@ class Dice5e {
     else parts = parts.concat(["@bonus"]);
 
     // Construct dialog data
-    template = template || "public/systems/dnd5e/templates/chat/roll-dialog.html";
+    template = template || "public/systems/pathfinder-master/templates/chat/roll-dialog.html";
     let dialogData = {
       formula: parts.join(" + "),
       data: data,
@@ -396,7 +392,7 @@ Hooks.once("init", () => {
   /**
    * Register diagonal movement rule setting
    */
-  game.settings.register("dnd5e", "diagonalMovement", {
+  game.settings.register("pathfinder", "diagonalMovement", {
     name: "SETTINGS.5eDiagN",
     hint: "SETTINGS.5eDiagL",
     scope: "world",
@@ -413,26 +409,26 @@ Hooks.once("init", () => {
   /**
    * Register Initiative formula setting
    */
-  function _set5eInitiative(tiebreaker) {
+  function _setPFInitiative(tiebreaker) {
     CONFIG.initiative.tiebreaker = tiebreaker;
     CONFIG.initiative.decimals = tiebreaker ? 2 : 0;
     if ( ui.combat && ui.combat._rendered ) ui.combat.render();
   }
-  game.settings.register("dnd5e", "initiativeDexTiebreaker", {
+  game.settings.register("pathfinder", "initiativeDexTiebreaker", {
     name: "SETTINGS.5eInitTBN",
     hint: "SETTINGS.5eInitTBL",
     scope: "world",
     config: true,
     default: true,
     type: Boolean,
-    onChange: enable => _set5eInitiative(enable)
+    onChange: enable => _setPFInitiative(enable)
   });
-  _set5eInitiative(game.settings.get("dnd5e", "initiativeDexTiebreaker"));
+  _setPFInitiative(game.settings.get("pathfinder", "initiativeDexTiebreaker"));
 
   /**
    * Require Currency Carrying Weight
    */
-  game.settings.register("dnd5e", "currencyWeight", {
+  game.settings.register("pathfinder", "currencyWeight", {
     name: "SETTINGS.5eCurWtN",
     hint: "SETTINGS.5eCurWtL",
     scope: "world",
@@ -445,27 +441,27 @@ Hooks.once("init", () => {
   loadTemplates([
 
     // Actor Sheet Partials
-    "public/systems/dnd5e/templates/actors/actor-attributes.html",
-    "public/systems/dnd5e/templates/actors/actor-abilities.html",
-    "public/systems/dnd5e/templates/actors/actor-biography.html",
-    "public/systems/dnd5e/templates/actors/actor-skills.html",
-    "public/systems/dnd5e/templates/actors/actor-traits.html",
-    "public/systems/dnd5e/templates/actors/actor-classes.html",
+    "public/systems/pathfinder-master/templates/actors/actor-attributes.html",
+    "public/systems/pathfinder-master/templates/actors/actor-abilities.html",
+    "public/systems/pathfinder-master/templates/actors/actor-biography.html",
+    "public/systems/pathfinder-master/templates/actors/actor-skills.html",
+    "public/systems/pathfinder-master/templates/actors/actor-traits.html",
+    "public/systems/pathfinder-master/templates/actors/actor-classes.html",
 
     // Item Sheet Partials
-    "public/systems/dnd5e/templates/items/backpack-sidebar.html",
-    "public/systems/dnd5e/templates/items/class-sidebar.html",
-    "public/systems/dnd5e/templates/items/consumable-details.html",
-    "public/systems/dnd5e/templates/items/consumable-sidebar.html",
-    "public/systems/dnd5e/templates/items/equipment-details.html",
-    "public/systems/dnd5e/templates/items/equipment-sidebar.html",
-    "public/systems/dnd5e/templates/items/feat-details.html",
-    "public/systems/dnd5e/templates/items/feat-sidebar.html",
-    "public/systems/dnd5e/templates/items/spell-details.html",
-    "public/systems/dnd5e/templates/items/spell-sidebar.html",
-    "public/systems/dnd5e/templates/items/tool-sidebar.html",
-    "public/systems/dnd5e/templates/items/weapon-details.html",
-    "public/systems/dnd5e/templates/items/weapon-sidebar.html"
+    "public/systems/pathfinder-master/templates/items/backpack-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/class-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/consumable-details.html",
+    "public/systems/pathfinder-master/templates/items/consumable-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/equipment-details.html",
+    "public/systems/pathfinder-master/templates/items/equipment-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/feat-details.html",
+    "public/systems/pathfinder-master/templates/items/feat-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/spell-details.html",
+    "public/systems/pathfinder-master/templates/items/spell-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/tool-sidebar.html",
+    "public/systems/pathfinder-master/templates/items/weapon-details.html",
+    "public/systems/pathfinder-master/templates/items/weapon-sidebar.html"
   ]);
 
   /* -------------------------------------------- */
@@ -484,15 +480,15 @@ Hooks.once("init", () => {
           parts = ["1d20", data.attributes.init.mod];
 
     // Advantage on Initiative
-    if ( actor.getFlag("dnd5e", "initiativeAdv") ) parts[0] = "2d20kh";
+    if ( actor.getFlag("pathfinder", "initiativeAdv") ) parts[0] = "2d20kh";
 
     // Half-Proficiency to Initiative
-    if ( actor.getFlag("dnd5e", "initiativeHalfProf") ) {
+    if ( actor.getFlag("pathfinder", "initiativeHalfProf") ) {
       parts.push(Math.floor(0.5 * data.attributes.prof.value))
     }
 
     // Alert Bonus to Initiative
-    if ( actor.getFlag("dnd5e", "initiativeAlert") ) parts.push(5);
+    if ( actor.getFlag("pathfinder", "initiativeAlert") ) parts.push(5);
 
     // Dexterity tiebreaker
     if ( CONFIG.initiative.tiebreaker ) parts.push(data.abilities.dex.value / 100);
@@ -507,7 +503,7 @@ Hooks.once("init", () => {
 Hooks.on("canvasInit", () => {
 
   // Apply the current setting
-  canvas.grid.diagonalRule = game.settings.get("dnd5e", "diagonalMovement");
+  canvas.grid.diagonalRule = game.settings.get("pathfinder", "diagonalMovement");
 
   /* -------------------------------------------- */
 
@@ -539,7 +535,7 @@ Hooks.on("canvasInit", () => {
 /**
  * Extend the base Actor class to implement additional logic specialized for D&D5e.
  */
-class Actor5e extends Actor {
+class ActorPF extends Actor {
 
   /**
    * Augment the basic actor data with additional dynamic data.
@@ -585,7 +581,7 @@ class Actor5e extends Actor {
     for ( let [t, choices] of Object.entries(map) ) {
       let trait = data.traits[t];
       if (!( trait.value instanceof Array )) {
-        trait.value = TraitSelector5e._backCompat(trait.value, choices);
+        trait.value = TraitSelectorPF._backCompat(trait.value, choices);
       }
     }
 
@@ -679,7 +675,7 @@ class Actor5e extends Actor {
       flavor = `${skl.label} Skill Check`;
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: event,
       parts: parts,
       data: {mod: skl.mod},
@@ -728,7 +724,7 @@ class Actor5e extends Actor {
         flavor = `${abl.label} Ability Test`;
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: options.event,
       parts: parts,
       data: {mod: abl.mod},
@@ -759,7 +755,7 @@ class Actor5e extends Actor {
     }
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: options.event,
       parts: parts,
       data: data,
@@ -785,7 +781,7 @@ class Actor5e extends Actor {
     if ( rollData.attributes.hd.value === 0 ) throw new Error(`${this.name} has no Hit Dice remaining!`);
 
     // Call the roll helper utility
-    return Dice5e.damageRoll({
+    return DicePF.damageRoll({
       event: new Event("hitDie"),
       parts: parts,
       data: rollData,
@@ -909,7 +905,7 @@ class Actor5e extends Actor {
 }
 
 // Assign the actor class to the CONFIG
-CONFIG.Actor.entityClass = Actor5e;
+CONFIG.Actor.entityClass = ActorPF;
 
 
 /**
@@ -932,13 +928,13 @@ Token.prototype._drawBar = function(number, bar, data) {
  * A specialized form used to select damage or condition types which apply to an Actor
  * @type {FormApplication}
  */
-class TraitSelector5e extends FormApplication {
+class TraitSelectorPF extends FormApplication {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  options.id = "trait-selector";
-	  options.classes = ["dnd5e"];
+	  options.classes = ["pathfinder"];
 	  options.title = "Actor Trait Selection";
-	  options.template = "public/systems/dnd5e/templates/actors/trait-selector.html";
+	  options.template = "public/systems/pathfinder-master/templates/actors/trait-selector.html";
 	  options.width = 200;
 	  return options;
   }
@@ -1019,7 +1015,7 @@ class TraitSelector5e extends FormApplication {
 /**
  * Override and extend the basic :class:`Item` implementation
  */
-class Item5e extends Item {
+class ItemPF extends Item {
 
   /**
    * Roll the item to Chat, creating a chat card which contains follow up attack or damage roll options
@@ -1028,7 +1024,7 @@ class Item5e extends Item {
   async roll() {
 
     // Basic template rendering data
-    const template = `public/systems/dnd5e/templates/chat/${this.data.type}-card.html`
+    const template = `public/systems/pathfinder-master/templates/chat/${this.data.type}-card.html`
     const token = this.actor.token;
     const templateData = {
       actor: this.actor,
@@ -1194,7 +1190,7 @@ class Item5e extends Item {
 
   /**
    * Roll a Weapon Attack
-   * Rely upon the Dice5e.d20Roll logic for the core implementation
+   * Rely upon the DicePF.d20Roll logic for the core implementation
    */
   rollWeaponAttack(event) {
     if ( this.type !== "weapon" ) throw "Wrong item type!";
@@ -1211,7 +1207,7 @@ class Item5e extends Item {
     // TODO: Incorporate Elven Accuracy
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: event,
       parts: parts,
       actor: this.actor,
@@ -1230,7 +1226,7 @@ class Item5e extends Item {
 
   /**
    * Roll Weapon Damage
-   * Rely upon the Dice5e.damageRoll logic for the core implementation
+   * Rely upon the DicePF.damageRoll logic for the core implementation
    */
   rollWeaponDamage(event, alternate=false) {
     if ( this.type !== "weapon" ) throw "Wrong item type!";
@@ -1248,7 +1244,7 @@ class Item5e extends Item {
 
     // Call the roll helper utility
     rollData.item = itemData;
-    Dice5e.damageRoll({
+    DicePF.damageRoll({
       event: event,
       parts: parts,
       actor: this.actor,
@@ -1267,7 +1263,7 @@ class Item5e extends Item {
 
   /**
    * Roll Spell Damage
-   * Rely upon the Dice5e.d20Roll logic for the core implementation
+   * Rely upon the DicePF.d20Roll logic for the core implementation
    */
   rollSpellAttack(event) {
     if ( this.type !== "spell" ) throw "Wrong item type!";
@@ -1280,7 +1276,7 @@ class Item5e extends Item {
         title = `${this.name} - Spell Attack Roll`;
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: event,
       parts: parts,
       data: rollData,
@@ -1298,7 +1294,7 @@ class Item5e extends Item {
 
   /**
    * Roll Spell Damage
-   * Rely upon the Dice5e.damageRoll logic for the core implementation
+   * Rely upon the DicePF.damageRoll logic for the core implementation
    */
   rollSpellDamage(event) {
     if ( this.type !== "spell" ) throw "Wrong item type!";
@@ -1320,7 +1316,7 @@ class Item5e extends Item {
     rollData.item = itemData;
 
     // Call the roll helper utility
-    Dice5e.damageRoll({
+    DicePF.damageRoll({
       event: event,
       parts: parts,
       data: rollData,
@@ -1389,7 +1385,7 @@ class Item5e extends Item {
 
   /**
    * Roll a Tool Check
-   * Rely upon the Dice5e.d20Roll logic for the core implementation
+   * Rely upon the DicePF.d20Roll logic for the core implementation
    */
   rollToolCheck(event) {
     if ( this.type !== "tool" ) throw "Wrong item type!";
@@ -1403,11 +1399,11 @@ class Item5e extends Item {
     rollData["proficiency"] = Math.floor((this.data.data.proficient.value || 0) * rollData.attributes.prof.value);
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: event,
       parts: parts,
       data: rollData,
-      template: "public/systems/dnd5e/templates/chat/tool-roll-dialog.html",
+      template: "public/systems/pathfinder-master/templates/chat/tool-roll-dialog.html",
       title: title,
       speaker: ChatMessage.getSpeaker({actor: this.actor}),
       flavor: (parts, data) => `${this.name} - ${data.abilities[data.ability].label} Check`,
@@ -1434,7 +1430,7 @@ class Item5e extends Item {
 
   /**
    * Roll a Feat Attack
-   * Rely upon the Dice5e.d20Roll logic for the core implementation
+   * Rely upon the DicePF.d20Roll logic for the core implementation
    */
   rollFeatAttack(event) {
     if ( this.type !== "feat" ) throw "Wrong item type!";
@@ -1448,7 +1444,7 @@ class Item5e extends Item {
     rollData.item = itemData;
 
     // Call the roll helper utility
-    Dice5e.d20Roll({
+    DicePF.d20Roll({
       event: event,
       parts: parts,
       data: rollData,
@@ -1466,7 +1462,7 @@ class Item5e extends Item {
 
   /**
    * Roll Feat Damage
-   * Rely upon the Dice5e.damageRoll logic for the core implementation
+   * Rely upon the DicePF.damageRoll logic for the core implementation
    */
   rollFeatDamage(event) {
     if ( this.type !== "feat" ) throw "Wrong item type!";
@@ -1487,7 +1483,7 @@ class Item5e extends Item {
     rollData.item = itemData;
 
     // Call the roll helper utility
-    Dice5e.damageRoll({
+    DicePF.damageRoll({
       event: event,
       parts: parts,
       data: rollData,
@@ -1568,8 +1564,8 @@ class Item5e extends Item {
   }
 }
 
-// Assign Item5e class to CONFIG
-CONFIG.Item.entityClass = Item5e;
+// Assign ItemPF class to CONFIG
+CONFIG.Item.entityClass = ItemPF;
 
 
 /**
@@ -1584,41 +1580,41 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
   options["Apply Damage"] = {
     icon: '<i class="fas fa-user-minus"></i>',
     condition: canApply,
-    callback: li => Actor5e.applyDamage(li, 1)
+    callback: li => ActorPF.applyDamage(li, 1)
   };
 
   // Apply Healing to Token
   options["Apply Healing"] = {
     icon: '<i class="fas fa-user-plus"></i>',
     condition: canApply,
-    callback: li => Actor5e.applyDamage(li, -1)
+    callback: li => ActorPF.applyDamage(li, -1)
   };
 
   // Apply Double-Damage
   options["Double Damage"] = {
     icon: '<i class="fas fa-user-injured"></i>',
     condition: canApply,
-    callback: li => Actor5e.applyDamage(li, 2)
+    callback: li => ActorPF.applyDamage(li, 2)
   };
 
   // Apply Half-Damage
   options["Half Damage"] = {
     icon: '<i class="fas fa-user-shield"></i>',
     condition: canApply,
-    callback: li => Actor5e.applyDamage(li, 0.5)
+    callback: li => ActorPF.applyDamage(li, 0.5)
   }
 });
 
 /**
  * Override and extend the basic :class:`ItemSheet` implementation
  */
-class ItemSheet5e extends ItemSheet {
+class ItemSheetPF extends ItemSheet {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  options.width = 520;
 	  options.height = 460;
-	  options.classes = options.classes.concat(["dnd5e", "item"]);
-	  options.template = `public/systems/dnd5e/templates/items/item-sheet.html`;
+	  options.classes = options.classes.concat(["pathfinder", "item"]);
+	  options.template = `public/systems/pathfinder-master/templates/items/item-sheet.html`;
 	  options.resizable = false;
 	  return options;
   }
@@ -1638,9 +1634,9 @@ class ItemSheet5e extends ItemSheet {
     mergeObject(data, {
       type: type,
       hasSidebar: true,
-      sidebarTemplate: () => `public/systems/dnd5e/templates/items/${type}-sidebar.html`,
+      sidebarTemplate: () => `public/systems/pathfinder-master/templates/items/${type}-sidebar.html`,
       hasDetails: ["consumable", "equipment", "feat", "spell", "weapon"].includes(type),
-      detailsTemplate: () => `public/systems/dnd5e/templates/items/${type}-details.html`
+      detailsTemplate: () => `public/systems/pathfinder-master/templates/items/${type}-details.html`
     });
 
     // Damage types
@@ -1726,17 +1722,17 @@ class ItemSheet5e extends ItemSheet {
 }
 
 // Activate global listeners
-Hooks.on('renderChatLog', (log, html, data) => Item5e.chatListeners(html));
+Hooks.on('renderChatLog', (log, html, data) => ItemPF.chatListeners(html));
 
 // Register Item Sheet
 Items.unregisterSheet("core", ItemSheet);
-Items.registerSheet("dnd5e", ItemSheet5e, {makeDefault: true});
+Items.registerSheet("pathfinder", ItemSheetPF, {makeDefault: true});
 
 /**
- * Extend the basic ActorSheet class to do all the D&D5e things!
+ * Extend the basic ActorSheet class to do all the Pathfinder things!
  * This sheet is an Abstract layer which is not used.
  */
-class ActorSheet5e extends ActorSheet {
+class ActorSheetPF extends ActorSheet {
 
   /**
    * Return the type of the current Actor
@@ -2058,7 +2054,7 @@ class ActorSheet5e extends ActorSheet {
       title: a.parent().text().trim(),
       choices: CONFIG[a.attr("data-options")]
     };
-    new TraitSelector5e(this.actor, options).render(true)
+    new TraitSelectorPF(this.actor, options).render(true)
   }
 }
 
@@ -2096,11 +2092,11 @@ class ShortRestDialog extends Dialog {
 
 
 
-class ActorSheet5eCharacter extends ActorSheet5e {
+class ActorSheetPFCharacter extends ActorSheetPF {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  mergeObject(options, {
-      classes: options.classes.concat(["dnd5e", "actor", "character-sheet"]),
+      classes: options.classes.concat(["pathfinder", "actor", "character-sheet"]),
       width: 650,
       height: 720,
       showUnpreparedSpells: true
@@ -2115,7 +2111,7 @@ class ActorSheet5eCharacter extends ActorSheet5e {
    * @type {String}
    */
   get template() {
-    const path = "public/systems/dnd5e/templates/actors/";
+    const path = "public/systems/pathfinder-master/templates/actors/";
     if ( !game.user.isGM && this.actor.limited ) return path + "limited-sheet.html";
     return path + "actor-sheet.html";
   }
@@ -2234,10 +2230,10 @@ class ActorSheet5eCharacter extends ActorSheet5e {
     }[actorData.data.traits.size.value] || 1;
 
     // Apply Powerful Build feat
-    if ( this.actor.getFlag("dnd5e", "powerfulBuild") ) mod = Math.min(mod * 2, 8);
+    if ( this.actor.getFlag("pathfinder", "powerfulBuild") ) mod = Math.min(mod * 2, 8);
 
     // Add Currency Weight
-    if ( game.settings.get("dnd5e", "currencyWeight") ) {
+    if ( game.settings.get("pathfinder", "currencyWeight") ) {
       const currency = actorData.data.currency;
       const numCoins = Object.values(currency).reduce((val, denom) => val += denom.value, 0);
       totalWeight += numCoins / 50;
@@ -2280,7 +2276,7 @@ class ActorSheet5eCharacter extends ActorSheet5e {
     event.preventDefault();
     let hd0 = this.actor.data.data.attributes.hd.value,
         hp0 = this.actor.data.data.attributes.hp.value;
-    renderTemplate("public/systems/dnd5e/templates/chat/short-rest.html").then(html => {
+    renderTemplate("public/systems/pathfinder-master/templates/chat/short-rest.html").then(html => {
       new ShortRestDialog(this.actor, {
         title: "Short Rest",
         content: html,
@@ -2347,7 +2343,7 @@ class ActorSheet5eCharacter extends ActorSheet5e {
 }
 
 // Register Character Sheet
-Actors.registerSheet("dnd5e", ActorSheet5eCharacter, {
+Actors.registerSheet("pathfinder", ActorSheetPFCharacter, {
   types: ["character"],
   makeDefault: true
 });
@@ -2360,7 +2356,7 @@ class ActorSheetFlags extends BaseEntitySheet {
     const options = super.defaultOptions;
     return mergeObject(options, {
       id: "actor-flags",
-      template: "public/systems/dnd5e/templates/actors/actor-flags.html",
+      template: "public/systems/pathfinder-master/templates/actors/actor-flags.html",
       width: 500,
       closeOnSubmit: true
     });
@@ -2403,7 +2399,7 @@ class ActorSheetFlags extends BaseEntitySheet {
       flag.type = v.type.name;
       flag.isCheckbox = v.type === Boolean;
       flag.isSelect = v.hasOwnProperty('choices');
-      flag.value = this.entity.getFlag("dnd5e", k);
+      flag.value = this.entity.getFlag("pathfinder", k);
       flags[v.section][k] = flag;
     }
     return flags;
@@ -2489,11 +2485,11 @@ CONFIG.Actor.characterFlags = {
 
 
 
-class ActorSheet5eNPC extends ActorSheet5e {
+class ActorSheetPFNPC extends ActorSheetPF {
 	static get defaultOptions() {
 	  const options = super.defaultOptions;
 	  mergeObject(options, {
-      classes: options.classes.concat(["dnd5e", "actor", "npc-sheet"]),
+      classes: options.classes.concat(["pathfinder", "actor", "npc-sheet"]),
       width: 650,
       height: 680,
       showUnpreparedSpells: true
@@ -2508,7 +2504,7 @@ class ActorSheet5eNPC extends ActorSheet5e {
    * @type {String}
    */
   get template() {
-    const path = "public/systems/dnd5e/templates/actors/";
+    const path = "public/systems/pathfinder-master/templates/actors/";
     if ( !game.user.isGM && this.actor.limited ) return path + "limited-sheet.html";
     return path + "npc-sheet.html";
   }
@@ -2617,7 +2613,7 @@ class ActorSheet5eNPC extends ActorSheet5e {
 }
 
 // Register NPC Sheet
-Actors.registerSheet("dnd5e", ActorSheet5eNPC, {
+Actors.registerSheet("pathfinder", ActorSheetPFNPC, {
   types: ["npc"],
   makeDefault: true
 });

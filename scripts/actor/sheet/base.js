@@ -1,5 +1,5 @@
 /**
- * Extend the basic ActorSheet class to do all the D&D5e things!
+ * Extend the basic ActorSheet class to do all the Pathfinder things!
  * This sheet is an Abstract layer which is not used.
  */
 class ActorSheetPF extends ActorSheet {
